@@ -11,8 +11,11 @@ $(function() {
          * @param {string}  amount  The amount of item to add, must be >= 0. 
          */
         addItem: function(id, amount) {
-            let newAmount = this.inventory.get(id) + amount;
-            this.inventory.set(id, newAmount);
+            if (this.inventory.has(id)) {
+                amount += this.inventory.get(id);
+            }
+
+            this.inventory.set(id, amount);
         },
 
         /**
@@ -21,8 +24,11 @@ $(function() {
          * @param {string}  amount  The amount of item to remove, must be >= 0. 
          */
         removeItem: function(id, amount) {
-            let newAmount = this.inventory.get(id) - amount;
-            this.inventory.set(id, newAmount);
+            if (this.inventory.has(id)) {
+                amount -= this.inventory.get(id);
+            }
+
+            this.inventory.set(id, amount);
         }
     };
 });
