@@ -1,0 +1,8 @@
+Volcanic
+Rocky
+Desert
+Barren
+Lush
+Jungle
+Savannah
+Gas Giant

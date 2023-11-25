@@ -1,4 +1,8 @@
 $(function() {
+    /**
+     * Player object and functions.
+     */
+
     // Creating the player object.
     const player = {
         name: "Player",
@@ -17,8 +21,12 @@ $(function() {
         },
 
         /**
-         * Getter for the player's money.
+         * Setter and getter for the player's money.
          */
+        set uMoney(amount) {
+            this.money = amount;
+        },
+
         get uMoney() {
             return this.money;
         },
