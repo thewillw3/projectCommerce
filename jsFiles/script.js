@@ -131,4 +131,46 @@ $(function() {
             return this.sType;
         }
     };
+
+    /**
+     * Class for planet creation.
+     */
+    class Planet {
+        /**
+         * Name - the name of the planet. Should be a string.
+         * pType - the planet's type. Should be a string.
+         * habitable - whether or not the player can inhabit the planet. Boolean.
+         */
+        name = "Unknown Planet";
+        pType = "Unknown Type";
+        habitable = false;
+
+        /**
+         * Settings up the constructor.
+         */
+        constructor(name) {
+            this.name = name;
+
+            // Eventually planets will be randomly generated.
+            this.pType = "Gas Giant";
+        }
+
+        /**
+         * Setter and getter for name of the planet.
+         */
+        set planetName(newName) {
+            this.name = newName;
+        }
+
+        get planetName() {
+            return this.name;
+        }
+
+        /**
+         * Getter for the planet type.
+         */
+        get planetType() {
+            return this.planetType;
+        }
+    };
 });
