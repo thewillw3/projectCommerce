@@ -1,13 +1,27 @@
 $(function() {
     /**
+     * General use functions.
+     */
+
+    /**
+     * Randomly generates a number between min - max (inclusive).
+     * @param {number}  max     The upper bound of the number to generate.
+     * @param {number}  min     The lower bound of the number to generate.
+     * @returns {number}        min <= number <= max.
+     */
+    function randNumInclusive(max, min) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    /**
      * Player object and functions.
      */
 
     const player = {
         /**
-         * Name - the player's name. Should be a string.
-         * Money - the player's money. Should be a number.
-         * Inventory - the player's items. Access and change the inventory
+         * name - the player's name. Should be a string.
+         * money - the player's money. Should be a number.
+         * inventory - the player's items. Access and change the inventory
          * through the provided methods in the object.
          */
         name: "Player",
@@ -96,28 +110,29 @@ $(function() {
          * Name - the star's name. Should be a string.
          * sType - the star's type. Will be a string from a list of star types.
          */
-        name = "Unknown Star";
-        sType = "Unknown Type";
+        #name = "Unknown Star";
+        #sType = "Unknown Type";
         
         /**
-         * Setting up the constructor.
+         * The constructor for a new star. Star type will be generated here.
+         * @param {string} name The name to be assigned to the star. 
          */
         constructor(name) {
-            this.name = name;
+            this.#name = name;
 
             // Eventually stars will be randomly generated.
-            this.sType = "Main Sequence";
+            this.#sType = "Main Sequence";
         }
 
         /**
          * Setter and getter for the name of the star.
          */
         set starName(newName) {
-            this.name = newName;
+            this.#name = newName;
         }
 
         get starName() {
-            return this.name;
+            return this.#name;
         }
 
         /**
@@ -128,7 +143,7 @@ $(function() {
          * the course of gameplay, so a setter has no function.
          */
         get starType() {
-            return this.sType;
+            return this.#sType;
         }
     };
 
@@ -141,36 +156,120 @@ $(function() {
          * pType - the planet's type. Should be a string.
          * habitable - whether or not the player can inhabit the planet. Boolean.
          */
-        name = "Unknown Planet";
-        pType = "Unknown Type";
-        habitable = false;
+        #name = "Unknown Planet";
+        #pType = "Unknown Type";
+        #habitable = false;
 
         /**
-         * Settings up the constructor.
+         * The constructor for new planets. Planet type will be generated here.
+         * @param {string} name The name to be assigned to the planet. 
          */
         constructor(name) {
-            this.name = name;
+            this.#name = name;
 
             // Eventually planets will be randomly generated.
-            this.pType = "Gas Giant";
+            this.#pType = "Gas Giant";
         }
 
         /**
          * Setter and getter for name of the planet.
          */
         set planetName(newName) {
-            this.name = newName;
+            this.#name = newName;
         }
 
         get planetName() {
-            return this.name;
+            return this.#name;
         }
 
         /**
          * Getter for the planet type.
          */
         get planetType() {
-            return this.planetType;
+            return this.#pType;
         }
     };
+
+    /**
+     * Class for system creation.
+     */
+    class System {
+        /**
+         * name - the name of the current system.
+         * stars - an array containing all stars in the current system.
+         * planets - an array containing all planets in the current system.
+         */
+        #name = "Unknown System";
+        #stars = [];
+        #planets = [];
+
+        // Bounds for minimum stars and maximum stars.
+        static #MIN_STARS = 1;
+        static #MAX_STARS = 3;
+
+        // Bounds for minimum planets and maximum planets.
+        static #MIN_PLANETS = 0;
+        static #MAX_PLANETS = 8;
+
+        /**
+         * The constructor for systems.
+         * Will randomly generate a name for itself, stars, and planets.
+         */
+        constructor() {
+            // Establish the name for the system.
+            this.#name = "Test System";
+
+            // Establishing the suffix letter to be added to the end of a star / planet.
+            let letter = "A";
+
+            // Generating a random number of stars.
+            let numOfStars = randNumInclusive(System.#MAX_STARS, System.#MIN_STARS);
+
+            for (let i = 0; i < numOfStars; i++) {
+                // Setting the name of the current star.
+                let curStarName = this.#name + " " + letter;
+                letter = String.fromCharCode(letter.charCodeAt(0) + 1);
+
+                // Adding the new star to the system's array of stars.
+                this.#stars.push(new Star(curStarName));
+            }
+
+            // Changing the suffix letter to be in line with planet naming conventions.
+            letter = "b";
+
+            // Generating a random number of planets.
+            let numOfPlanets = randNumInclusive(System.#MAX_PLANETS, System.#MIN_PLANETS);
+
+            for (let i = 0; i < numOfPlanets; i++) {
+                // Setting the name of the current planet.
+                let curPlanetName = this.#name + " " + letter;
+                letter = String.fromCharCode(letter.charCodeAt(0) + 1);
+
+                // Adding the new planet to the system's array of planets.
+                this.#planets.push(new Planet(curPlanetName));
+            }
+        }
+
+        /**
+         * Display function.
+         * Currently only displays system to the console.
+         */
+        displaySystem() {
+            console.log("Stars in system: ");
+
+            for (let curStar of this.#stars) {
+                console.log(curStar.starName);
+            }
+
+            console.log("Planets in system: ");
+
+            for (let curPlanet of this.#planets) {
+                console.log(curPlanet.planetName);
+            }
+        }
+    };
+
+    // Create new system and print it to console.
+    let test = new System();
+    test.displaySystem();
 });
