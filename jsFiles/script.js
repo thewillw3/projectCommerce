@@ -3,8 +3,13 @@ $(function() {
      * Player object and functions.
      */
 
-    // Creating the player object.
     const player = {
+        /**
+         * Name - the player's name. Should be a string.
+         * Money - the player's money. Should be a number.
+         * Inventory - the player's items. Access and change the inventory
+         * through the provided methods in the object.
+         */
         name: "Player",
         money: 0,
         inventory: new Map(),
@@ -80,6 +85,50 @@ $(function() {
          */
         getItem: function(id) {
             return this.inventory.get(id);
+        }
+    };
+
+    /**
+     * Class for star creation.
+     */
+    class Star {
+        /**
+         * Name - the star's name. Should be a string.
+         * sType - the star's type. Will be a string from a list of star types.
+         */
+        name = "Unknown Star";
+        sType = "Unknown Type";
+        
+        /**
+         * Setting up the constructor.
+         */
+        constructor(name) {
+            this.name = name;
+
+            // Eventually stars will be randomly generated.
+            this.sType = "Main Sequence";
+        }
+
+        /**
+         * Setter and getter for the name of the star.
+         */
+        set starName(newName) {
+            this.name = newName;
+        }
+
+        get starName() {
+            return this.name;
+        }
+
+        /**
+         * Getter for the type of star.
+         * 
+         * Note: unless something changes, I don't think we would need
+         * to make a setter for the star type. It shouldn't change throughout
+         * the course of gameplay, so a setter has no function.
+         */
+        get starType() {
+            return this.sType;
         }
     };
 });
