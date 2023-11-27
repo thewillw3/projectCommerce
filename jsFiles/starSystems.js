@@ -87,7 +87,6 @@ class Star {
                     break;
                 default:
                     // Roughly 0.07% of all stars will be O class.
-                    // This is actually more favorable than realistic odds.
                     this.#sClass = Star.#MAINSEQUENCE[6];
                     break;
             }
