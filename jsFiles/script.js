@@ -113,12 +113,25 @@ $(function() {
         #name = "Unknown Star";
         #sType = "Unknown Type";
         #sClass = "Unknown Class";
-
-        // An array of special stars.
-        static #nonSequence = ["Neutron Star", "White Dwarf", "Black Hole"];
-
-        // An array containing all the classes of a main sequence star.
-        static #mainSequence = ["M", "K", "G", "F", "A", "B", "O"];
+        
+        /**
+         * #NONSEQUENCE - an array containing all special stellar objects.
+         * #MAINSEQUENCE - an array containing all classes a main sequence star can be.
+         * #MCLASSPER - percentage bound that a star will be M class.
+         * #KCLASSPER - percentage bound that a star will be K class.
+         * #GCLASSPER - percentage bound that a star will be G class.
+         * #FCLASSPER - percentage bound that a star will be F class.
+         * #ACLASSPER - percentage bound that a star will be A class.
+         * #BCLASSPER - percentage bound that a star will be B class.
+         */
+        static #NONSEQUENCE = ["Neutron Star", "White Dwarf", "Black Hole"];
+        static #MAINSEQUENCE = ["M", "K", "G", "F", "A", "B", "O"];
+        static #MCLASSPER = 0.765;
+        static #KCLASSPER = 0.886;
+        static #GCLASSPER = 0.962;
+        static #FCLASSPER = 0.992;
+        static #ACLASSPER = 0.998;
+        static #BCLASSPER = 0.9993;
         
         /**
          * The constructor for a new star. Star type will be generated here.
@@ -140,31 +153,31 @@ $(function() {
 
                 // Determining star class.
                 switch (true) {
-                    case randPercent < 0.765:
-                        this.#sClass = Star.#mainSequence[0]
+                    case randPercent < Star.#MCLASSPER:
+                        this.#sClass = Star.#MAINSEQUENCE[0]
                         break;
-                    case randPercent < 0.886:
-                        this.#sClass = Star.#mainSequence[1];
+                    case randPercent < Star.#KCLASSPER:
+                        this.#sClass = Star.#MAINSEQUENCE[1];
                         break;
-                    case randPercent < 0.962:
-                        this.#sClass = Star.#mainSequence[2];
+                    case randPercent < Star.#GCLASSPER:
+                        this.#sClass = Star.#MAINSEQUENCE[2];
                         break;
-                    case randPercent < 0.992:
-                        this.#sClass = Star.#mainSequence[3];
+                    case randPercent < Star.#FCLASSPER:
+                        this.#sClass = Star.#MAINSEQUENCE[3];
                         break;
-                    case randPercent < 0.998:
-                        this.#sClass = Star.#mainSequence[4];
+                    case randPercent < Star.#ACLASSPER:
+                        this.#sClass = Star.#MAINSEQUENCE[4];
                         break;
-                    case randPercent < 0.993:
-                        this.#sClass = Star.#mainSequence[5];
+                    case randPercent < Star.#BCLASSPER:
+                        this.#sClass = Star.#MAINSEQUENCE[5];
                         break;
                     default:
-                        this.#sClass = Star.#mainSequence[6];
+                        this.#sClass = Star.#MAINSEQUENCE[6];
                         break;
                 }
             } else {
                 // Generate a non-sequence star.
-                this.#sType = Star.#nonSequence[Math.floor(Math.random() * Star.#nonSequence.length)];
+                this.#sType = Star.#NONSEQUENCE[Math.floor(Math.random() * Star.#NONSEQUENCE.length)];
             }
         }
 
@@ -309,7 +322,7 @@ $(function() {
             console.log("Stars in system: ");
 
             for (let curStar of this.#stars) {
-                console.log(curStar.starName + ": " + curStar.starType);
+                console.log(curStar.starName + ": " + curStar.starType + " (" + curStar.starClass + ")");
             }
 
             console.log("Planets in system: ");
