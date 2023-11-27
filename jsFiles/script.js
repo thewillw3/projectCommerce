@@ -110,7 +110,7 @@ $(function() {
          * Name - the star's name. Should be a string.
          * sType - the star's type. Will be a string from a list of star types.
          */
-        #name = "Unknown Star";
+        #name = "Unknown Stellar Object";
         #sType = "Main Sequence";
         #sClass = "Unknown Class";
         
@@ -206,6 +206,28 @@ $(function() {
          */
         get starClass() {
             return this.#sClass;
+        }
+
+        /**
+         * Returns a boolean value depending upon if the stellar object is not a main sequence star.
+         * @returns {bool}  Returns true if the current stellar object is considered special.
+         */
+        isSpecial() {
+            return Star.#NONSEQUENCE.includes(this.#sType);
+        }
+
+        /**
+         * Returns the object as a string.
+         * @returns {string}    A string formatted as "name: sType (sClass)"
+         */
+        toString() {
+            let starInfo = this.#name + ": " + this.#sType;
+
+            if (!this.isSpecial()) {
+                starInfo += " (" + this.#sClass + ")";
+            }
+
+            return starInfo;
         }
     };
 
@@ -320,7 +342,7 @@ $(function() {
             console.log("Stars in system: ");
 
             for (let curStar of this.#stars) {
-                console.log(curStar.starName + ": " + curStar.starType + " (" + curStar.starClass + ")");
+                console.log(curStar.toString());
             }
 
             console.log("Planets in system: ");
