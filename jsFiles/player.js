@@ -85,4 +85,4 @@ const player = {
     getItem: function(id) {
         return this.inventory.get(id);
     }
-}
+};
