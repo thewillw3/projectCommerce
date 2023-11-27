@@ -112,16 +112,60 @@ $(function() {
          */
         #name = "Unknown Star";
         #sType = "Unknown Type";
+        #sClass = "Unknown Class";
+
+        // An array of special stars.
+        static #nonSequence = ["Neutron Star", "White Dwarf", "Black Hole"];
+
+        // An array containing all the classes of a main sequence star.
+        static #mainSequence = ["M", "K", "G", "F", "A", "B", "O"];
         
         /**
          * The constructor for a new star. Star type will be generated here.
          * @param {string} name The name to be assigned to the star. 
          */
         constructor(name) {
+            // Setting the name of the star.
             this.#name = name;
 
-            // Eventually stars will be randomly generated.
-            this.#sType = "Main Sequence";
+            // Generating a random percentage.
+            let randPercent = Math.random();
+
+            // 90% of stars are main sequence stars.
+            if (randPercent < 0.90) {
+                this.#sType = "Main Sequence";
+
+                // Generate a class for the star.
+                randPercent = Math.random();
+
+                // Determining star class.
+                switch (true) {
+                    case randPercent < 0.765:
+                        this.#sClass = Star.#mainSequence[0]
+                        break;
+                    case randPercent < 0.886:
+                        this.#sClass = Star.#mainSequence[1];
+                        break;
+                    case randPercent < 0.962:
+                        this.#sClass = Star.#mainSequence[2];
+                        break;
+                    case randPercent < 0.992:
+                        this.#sClass = Star.#mainSequence[3];
+                        break;
+                    case randPercent < 0.998:
+                        this.#sClass = Star.#mainSequence[4];
+                        break;
+                    case randPercent < 0.993:
+                        this.#sClass = Star.#mainSequence[5];
+                        break;
+                    default:
+                        this.#sClass = Star.#mainSequence[6];
+                        break;
+                }
+            } else {
+                // Generate a non-sequence star.
+                this.#sType = Star.#nonSequence[Math.floor(Math.random() * Star.#nonSequence.length)];
+            }
         }
 
         /**
@@ -145,6 +189,13 @@ $(function() {
         get starType() {
             return this.#sType;
         }
+
+        /**
+         * Getter for star class.
+         */
+        get starClass() {
+            return this.#sClass;
+        }
     };
 
     /**
@@ -152,7 +203,7 @@ $(function() {
      */
     class Planet {
         /**
-         * Name - the name of the planet. Should be a string.
+         * name - the name of the planet. Should be a string.
          * pType - the planet's type. Should be a string.
          * habitable - whether or not the player can inhabit the planet. Boolean.
          */
@@ -258,7 +309,7 @@ $(function() {
             console.log("Stars in system: ");
 
             for (let curStar of this.#stars) {
-                console.log(curStar.starName);
+                console.log(curStar.starName + ": " + curStar.starType);
             }
 
             console.log("Planets in system: ");
