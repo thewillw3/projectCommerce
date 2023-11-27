@@ -111,7 +111,7 @@ $(function() {
          * sType - the star's type. Will be a string from a list of star types.
          */
         #name = "Unknown Star";
-        #sType = "Unknown Type";
+        #sType = "Main Sequence";
         #sClass = "Unknown Class";
         
         /**
@@ -146,8 +146,6 @@ $(function() {
 
             // 90% of stars are main sequence stars.
             if (randPercent < 0.90) {
-                this.#sType = "Main Sequence";
-
                 // Generate a class for the star.
                 randPercent = Math.random();
 
