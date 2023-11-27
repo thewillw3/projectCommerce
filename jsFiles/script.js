@@ -100,7 +100,7 @@ $(function() {
         getItem: function(id) {
             return this.inventory.get(id);
         }
-    };
+    }
 
     /**
      * Class for star creation.
@@ -229,7 +229,7 @@ $(function() {
 
             return starInfo;
         }
-    };
+    }
 
     /**
      * Class for planet creation.
@@ -272,7 +272,7 @@ $(function() {
         get planetType() {
             return this.#pType;
         }
-    };
+    }
 
     /**
      * Class for system creation.
@@ -351,7 +351,7 @@ $(function() {
                 console.log(curPlanet.planetName);
             }
         }
-    };
+    }
 
     // Create new system and print it to console.
     let test = new System();
