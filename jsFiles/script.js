@@ -217,6 +217,23 @@ $(function() {
         }
 
         /**
+         * Returns a boolean value depending on whether or not a stellar object is considered a star.
+         * @returns {bool}  Returns true if the current object is a star.
+         */
+        isStar() {
+            /**
+             * Note: So I wrote this function because White Dwarves walk the line of being a star,
+             * but not being a main sequence star. They can exist with other stars, so I decided to
+             * just write this function for system generation.
+             */
+            if (this.#sType === Star.#NONSEQUENCE[1] || this.#sType === "Main Sequence") {
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
          * Returns the object as a string.
          * @returns {string}    A string formatted as "name: sType (sClass)"
          */
@@ -316,21 +333,41 @@ $(function() {
 
                 // Adding the new star to the system's array of stars.
                 this.#stars.push(new Star(curStarName));
+
+                /**
+                 * If the current object that was just generated is not considered a star,
+                 * then it will exist on its own.
+                 */
+                if (!this.#stars[i].isStar()) {
+                    // Removing all other stellar objects.
+                    while (this.#stars.length != 1) {
+                        this.#stars.shift();
+                    }
+
+                    // Renaming the main object.
+                    this.#stars[0].starName = this.#name + " A*";
+
+                    // Breaking out of this loop.
+                    break;
+                }
             }
 
-            // Changing the suffix letter to be in line with planet naming conventions.
-            letter = "b";
+            // Planets will not be generated around Neutron Stars or Black Holes.
+            if (this.#stars[0].isStar()) {
+                // Changing the suffix letter to be in line with planet naming conventions.
+                letter = "b";
 
-            // Generating a random number of planets.
-            let numOfPlanets = randNumInclusive(System.#MAX_PLANETS, System.#MIN_PLANETS);
+                // Generating a random number of planets.
+                let numOfPlanets = randNumInclusive(System.#MAX_PLANETS, System.#MIN_PLANETS);
 
-            for (let i = 0; i < numOfPlanets; i++) {
-                // Setting the name of the current planet.
-                let curPlanetName = this.#name + " " + letter;
-                letter = String.fromCharCode(letter.charCodeAt(0) + 1);
+                for (let i = 0; i < numOfPlanets; i++) {
+                    // Setting the name of the current planet.
+                    let curPlanetName = this.#name + " " + letter;
+                    letter = String.fromCharCode(letter.charCodeAt(0) + 1);
 
-                // Adding the new planet to the system's array of planets.
-                this.#planets.push(new Planet(curPlanetName));
+                    // Adding the new planet to the system's array of planets.
+                    this.#planets.push(new Planet(curPlanetName));
+                }
             }
         }
 
