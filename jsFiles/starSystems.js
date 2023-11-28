@@ -27,6 +27,11 @@ class Star {
     /**
      * #NONSEQUENCE - an array containing all special stellar objects.
      * #MAINSEQUENCE - an array containing all classes a main sequence star can be.
+     */
+    static #NONSEQUENCE = ["Neutron Star", "White Dwarf", "Black Hole"];
+    static #MAINSEQUENCE = ["M", "K", "G", "F", "A", "B", "O"];
+
+    /**
      * #MCLASSPER - percentage bound that a star will be M class.
      * #KCLASSPER - percentage bound that a star will be K class.
      * #GCLASSPER - percentage bound that a star will be G class.
@@ -34,8 +39,6 @@ class Star {
      * #ACLASSPER - percentage bound that a star will be A class.
      * #BCLASSPER - percentage bound that a star will be B class.
      */
-    static #NONSEQUENCE = ["Neutron Star", "White Dwarf", "Black Hole"];
-    static #MAINSEQUENCE = ["M", "K", "G", "F", "A", "B", "O"];
     static #MCLASSPER = 0.765;
     static #KCLASSPER = 0.886;
     static #GCLASSPER = 0.962;
@@ -239,7 +242,7 @@ class System {
      */
     constructor() {
         // Establish the name for the system.
-        this.#name = "Test System";
+        this.#name = randomName(3);
 
         // Establishing the suffix letter to be added to the end of a star / planet.
         let letter = "A";
@@ -323,7 +326,6 @@ class System {
      * Currently only displays system to the console.
      */
     displaySystem() {
-        
         console.log(this.#name + " (" + this.#sysType + ") \n" + "Stars in system: ");
 
         for (let curStar of this.#stars) {
