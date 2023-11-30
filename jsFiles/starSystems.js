@@ -355,7 +355,7 @@ class System {
             // Creating a new div element.
             let newChild = $("<div></div>").addClass("star");
     
-            // Calculating the proper distance from the system.
+            // Calculating the proper distance from star-wrapper.
             let y = Math.sin((div * i) * (Math.PI / 180)) * radius;
             let x = Math.cos((div * i) * (Math.PI / 180)) * radius;
     
