@@ -1,14 +1,21 @@
 /*
+ * Body stylizing.
+ */
+body {
+    background-color: #081324;
+}
+
+/*
  * Properly stylizing the star system.
  */
 .star-wrapper {
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 100%;
 
     /*
      * Defining dimensions.
      */
-    width: 40px;
+    width: 35px;
     aspect-ratio: 1/1;
 
     /*
@@ -16,17 +23,16 @@
      */
     position: absolute;
     top: 50%;
-    right: 50%;
-    transform: translateY(-50%) translateX(50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     /*
      * Animating the star system orbit.
+     * animation: orbit 15s linear 0.1s infinite forwards;
      */
-    animation: orbit 10s linear 0s infinite forwards;
 }
 
 .star {
-    border: 1px solid black;
     border-radius: 100%;
 
     /*
@@ -39,7 +45,7 @@
      * Setting up positioning, most will be defined
      * through jQuery (see starSystems.js).
      */
-    position: absolute;
+    position: absolute;    
 }
 
 /*

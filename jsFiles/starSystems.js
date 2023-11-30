@@ -73,14 +73,7 @@ class Star extends Celestial {
     static #NONSEQUENCE = ["Neutron Star", "White Dwarf", "Black Hole"];
     static #MAINSEQUENCE = ["M", "K", "G", "F", "A", "B", "O"];
 
-    /**
-     * #MCLASSPER - percentage bound that a star will be M class.
-     * #KCLASSPER - percentage bound that a star will be K class.
-     * #GCLASSPER - percentage bound that a star will be G class.
-     * #FCLASSPER - percentage bound that a star will be F class.
-     * #ACLASSPER - percentage bound that a star will be A class.
-     * #BCLASSPER - percentage bound that a star will be B class.
-     */
+    // Percentage bound for each class of star.
     static #MCLASSPER = 0.765;
     static #KCLASSPER = 0.886;
     static #GCLASSPER = 0.962;
@@ -88,32 +81,18 @@ class Star extends Celestial {
     static #ACLASSPER = 0.998;
     static #BCLASSPER = 0.9993;
 
-    /**
-     * #MSIZE - size in pixels of a M class star.
-     * #KSIZE - size in pixels of a K class star.
-     * #GSIZE - size in pixels of a G class star.
-     * #FSIZE - size in pixels of a F class star.
-     * #ASIZE - size in pixels of an A class star.
-     * #BSIZE - size in pixels of a B class star.
-     * #OSIZE - size in pixels of an O class star.
-     */
-    static #MSIZE = 25;
-    static #KSIZE = 30;
-    static #GSIZE = 35;
-    static #FSIZE = 40;
-    static #ASIZE = 45;
-    static #BSIZE = 50;
-    static #OSIZE = 70;
+    // Size of each class of star in pixels.
+    static #WDSIZE = 20;
+    static #MSIZE = 30;
+    static #KSIZE = 35;
+    static #GSIZE = 40;
+    static #FSIZE = 45;
+    static #ASIZE = 50;
+    static #BSIZE = 55;
+    static #OSIZE = 75;
 
-    /**
-     * #MCOLOR - hex color of a M class star.
-     * #KCOLOR - hex color of a K class star.
-     * #GCOLOR - hex color of a G class star.
-     * #FCOLOR - hex color of a F class star.
-     * #ACOLOR - hex color of an A class star.
-     * #BCOLOR - hex color of a B class star.
-     * #OCOLOR - hex color of an O class star.
-     */
+    // Hex color code of each star.
+    static #WDCOLOR = "#c1ccde";
     static #MCOLOR = "#f56c49";
     static #KCOLOR = "#f58349";
     static #GCOLOR = "#f7be5c";
@@ -137,7 +116,7 @@ class Star extends Celestial {
         let randPercent = Math.random();
 
         // 90% of stars are main sequence stars.
-        if (randPercent < 0.90) {
+        if (randPercent <= 0.9) {
             // Set this as a main sequence star.
             this.celType = "Main Sequence";
 
@@ -191,7 +170,28 @@ class Star extends Celestial {
             }
         } else {
             // Generate a non-sequence star.
-            this.celType = Star.#NONSEQUENCE[Math.floor(Math.random() * Star.#NONSEQUENCE.length)];
+            randPercent = Math.floor(Math.random() * Star.#NONSEQUENCE.length);
+
+            switch (randPercent) {
+                case 0:
+                    // Neutron Star.
+                    this.celType = Star.#NONSEQUENCE[0];
+                    break;
+                case 1:
+                    // White Dwarf.
+                    this.celType = Star.#NONSEQUENCE[1];
+                    this.celSize = Star.#WDSIZE;
+                    this.celColor = Star.#WDCOLOR;
+                    break;
+                case 2:
+                    // Black Hole.
+                    this.celType = Star.#NONSEQUENCE[2];
+                    break;
+                default:
+                    // In case something breaks.
+                    console.log("Special star was unable to be created.");
+                    break;
+            }
         }
     }
 
@@ -201,6 +201,60 @@ class Star extends Celestial {
      */
     isSpecial() {
         return Star.#NONSEQUENCE.includes(this.celType);
+    }
+
+    /**
+     * This version of displayStar will take in an x and y coordinate to display a
+     * star at. If no arguments are passed, then it will display the star in the
+     * middle of the screen.
+     * @param {number} x        Horizontal position to place the new star at. 
+     * @param {number} y        Vertical position to place the new star at. 
+     * @param {number} radius   Width of the star-wrapper element.
+     */
+    displayStar(x, y, radius) {
+        if (!arguments.length) {
+            /**
+             * This is my janky ass way of overloading the function.
+             * If no parameters are passed, the function will display
+             * the star in the middle of the screen.
+             */
+
+            // Creating a new div element.
+            let newChild = $("<div></div>").addClass("star");
+    
+            // Applying size, color, glow, and position.
+            newChild.css({
+                "width": this.celSize.toString() + "px",
+                "background-color": this.celColor,
+                "box-shadow": "0 0 20px " + this.celColor,
+                "top": "50%",
+                "right": "50%",
+                "transform": "translateX(50%) translateY(-50%)"
+            });
+            
+            // Adding the new child to the star-wrapper.
+            $("body").append(newChild);
+
+            return;     
+        }
+
+        // Calculating the total offset using the current star's size.
+        let totalOffset = (radius / 2) - (this.celSize / 2);
+
+        // Creating a new div element.
+        let newChild = $("<div></div>").addClass("star");
+
+        // Applying size, color, glow, and positioning.
+        newChild.css({
+            "width": this.celSize.toString() + "px",
+            "background-color": this.celColor,
+            "box-shadow": "0 0 20px " + this.celColor,
+            "top": (y + totalOffset).toString() + "px",
+            "left": (x + totalOffset).toString() + "px"
+        });
+            
+        // Appending the new element to the star-wrapper.
+        $(".star-wrapper").append(newChild);
     }
 
     /**
@@ -278,6 +332,11 @@ class System extends Celestial {
     static #MIN_PLANETS = 0;
     static #MAX_PLANETS = 8;
 
+    // Creating variables for the different system types.
+    static #ONESTAR = "Unary Star System";
+    static #TWOSTAR = "Binary Star System";
+    static #THREESTAR = "Trinary Star System";
+
     /**
      * The constructor for systems.
      * Currently generates stars and planets along with properly assigning the system type.
@@ -300,16 +359,16 @@ class System extends Celestial {
         // Defining the system type properly.
         switch (numOfStars) {
             case 1:
-                this.celType = "Unary Star System";
+                this.celType = System.#ONESTAR;
                 break;
             case 2:
-                this.celType = "Binary Star System";
+                this.celType = System.#TWOSTAR;
                 break;
             case 3:
-                this.celType = "Trinary Star System";
+                this.celType = System.#THREESTAR;
                 break;
             default:
-                this.celType = "Unknown Star System";
+                console.log("Star value for system is not valid.");
                 break;
         }
 
@@ -374,64 +433,30 @@ class System extends Celestial {
      * of stars in the center of the website.
      */
     displaySystem() {
-        // If the system only contains one star, nothing fancy needs to be done.
         if (this.#stars.length === 1) {
-            // Creating a new div element.
-            let newChild = $("<div></div>").addClass("star");
+            // If only one star exists within the system, display it.
+            this.#stars[0].displayStar();
+        } else {
+            // Use parameterized displayStar() if there's more than one.
+            // Start by adding the star-wrapper element.
+            // let starWrap = $("<div></div>").addClass("star-wrapper");
+            // $("body").append(starWrap);
 
-            // Applying some css (mainly for positioning).
-            newChild.css({
-                "width": this.#stars[0].celSize.toString() + "px",
-                "background-color": this.#stars[0].celColor,
-                "top": "50%",
-                "right": "50%",
-                "transform": "translateX(50%) translateY(-50%)"
-            });
+            // Dividing a circle into equal parts depending on how many stars there are.
+            let div = 360 / this.#stars.length;
 
-            // Adding the new child to the star-wrapper.
-            $(".star-wrapper").append(newChild);
-            return;
-        }
+            // Getting the width of the star-wrapper.
+            let radius = $(".star-wrapper").width();
 
-        /**
-         * The following code is meant for displaying systems
-         * that contain more than one star.
-         * 
-         * Useful variables:
-         * div - Dividing a circle into equal parts depending on how many stars there are.
-         * radius - The width of the star-wrapper div.
-         * totalOffset - Total amount of distance between the center of the star-wrapper and
-         * the center of the star div to be created.
-         * 
-         * Additional note: the 25 that randomly appears in the definition for totalOffset is the
-         * width of the star. This is a placeholder value for testing. Stars will have different
-         * sizes depending on their classification. :3
-         */
-        let div = 360 / this.#stars.length;
-        let radius = $(".star-wrapper").width();
-
-        // Iterate through the stars to get their appropriate size.
-        for (let i = 0; i < this.#stars.length; ++i) {
-            // Calculating the total offset using the current star's size.
-            let totalOffset = (radius / 2) - (this.#stars[i].celSize / 2);
-
-            // Creating a new div element.
-            let newChild = $("<div></div>").addClass("star");
-    
-            // Calculating the proper distance from star-wrapper.
-            let y = Math.sin((div * i) * (Math.PI / 180)) * radius;
-            let x = Math.cos((div * i) * (Math.PI / 180)) * radius;
-    
-            // Applying the proper position.
-            newChild.css({
-                "width": this.#stars[i].celSize.toString() + "px",
-                "background-color": this.#stars[i].celColor,
-                "top": (y + totalOffset).toString() + "px",
-                "left": (x + totalOffset).toString() + "px"
-            });
-    
-            // Appending the new element to the star-wrapper.
-            $(".star-wrapper").append(newChild);
+            // Iterate through the stars to get their appropriate size.
+            for (let i = 0; i < this.#stars.length; ++i) {
+                // Calculating the proper distance from star-wrapper.
+                let y = Math.sin((div * i) * (Math.PI / 180)) * radius;
+                let x = Math.cos((div * i) * (Math.PI / 180)) * radius;
+        
+                // Displaying the star.
+                this.#stars[i].displayStar(x, y, radius);
+            }
         }
     }
 }
