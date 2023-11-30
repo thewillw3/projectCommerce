@@ -216,8 +216,6 @@ class Star extends Celestial {
  */
 class Planet extends Celestial {
     /**
-     * name - the name of the planet. Should be a string.
-     * pType - the planet's type. Should be a string.
      * habitable - whether or not the player can inhabit the planet. Boolean.
      */
     #habitable = false;
