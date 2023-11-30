@@ -104,6 +104,23 @@ class Star extends Celestial {
     static #ASIZE = 45;
     static #BSIZE = 50;
     static #OSIZE = 70;
+
+    /**
+     * #MCOLOR - hex color of a M class star.
+     * #KCOLOR - hex color of a K class star.
+     * #GCOLOR - hex color of a G class star.
+     * #FCOLOR - hex color of a F class star.
+     * #ACOLOR - hex color of an A class star.
+     * #BCOLOR - hex color of a B class star.
+     * #OCOLOR - hex color of an O class star.
+     */
+    static #MCOLOR = "#f56c49";
+    static #KCOLOR = "#f58349";
+    static #GCOLOR = "#f7be5c";
+    static #FCOLOR = "#fad28e";
+    static #ACOLOR = "#a3c0e3";
+    static #BCOLOR = "#8fafe3";
+    static #OCOLOR = "#7aa0de";
     
     /**
      * The constructor for a new star. Star type will be generated here.
@@ -133,36 +150,43 @@ class Star extends Celestial {
                     // 76.5% of all stars will be M class.
                     this.#sClass = Star.#MAINSEQUENCE[0];
                     this.celSize = Star.#MSIZE;
+                    this.celColor = Star.#MCOLOR;
                     break;
                 case randPercent < Star.#KCLASSPER:
                     // 12.1% of all stars will be K class.
                     this.#sClass = Star.#MAINSEQUENCE[1];
                     this.celSize = Star.#KSIZE;
+                    this.celColor = Star.#KCOLOR;
                     break;
                 case randPercent < Star.#GCLASSPER:
                     // 7.6% of all stars will be G class.
                     this.#sClass = Star.#MAINSEQUENCE[2];
                     this.celSize = Star.#GSIZE;
+                    this.celColor = Star.#GCOLOR;
                     break;
                 case randPercent < Star.#FCLASSPER:
                     // 3% of all stars will be F class.
                     this.#sClass = Star.#MAINSEQUENCE[3];
                     this.celSize = Star.#FSIZE;
+                    this.celColor = Star.#FCOLOR;
                     break;
                 case randPercent < Star.#ACLASSPER:
                     // 0.6% of all stars will be A class.
                     this.#sClass = Star.#MAINSEQUENCE[4];
                     this.celSize = Star.#ASIZE;
+                    this.celColor = Star.#ACOLOR;
                     break;
                 case randPercent < Star.#BCLASSPER:
                     // 0.13% of all stars will be B class.
                     this.#sClass = Star.#MAINSEQUENCE[5];
                     this.celSize = Star.#BSIZE;
+                    this.celColor = Star.#BCOLOR;
                     break;
                 default:
                     // Roughly 0.07% of all stars will be O class.
                     this.#sClass = Star.#MAINSEQUENCE[6];
                     this.celSize = Star.#OSIZE;
+                    this.celColor = Star.#OCOLOR;
                     break;
             }
         } else {
@@ -358,6 +382,7 @@ class System extends Celestial {
             // Applying some css (mainly for positioning).
             newChild.css({
                 "width": this.#stars[0].celSize.toString() + "px",
+                "background-color": this.#stars[0].celColor,
                 "top": "50%",
                 "right": "50%",
                 "transform": "translateX(50%) translateY(-50%)"
@@ -400,6 +425,7 @@ class System extends Celestial {
             // Applying the proper position.
             newChild.css({
                 "width": this.#stars[i].celSize.toString() + "px",
+                "background-color": this.#stars[i].celColor,
                 "top": (y + totalOffset).toString() + "px",
                 "left": (x + totalOffset).toString() + "px"
             });
