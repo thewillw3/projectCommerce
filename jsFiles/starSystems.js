@@ -5,12 +5,14 @@ class Star {
     /**
      * name - the star's name. Should be a string.
      * sType - the star's type. Will be a string from a list of star types.
-     * sClass - if the star is a main sequence star, it will have a class
+     * sClass - if the star is a main sequence star, it will have a class.
+     * sSize - the size in pixels that the star will be when it gets displayed.
      * attached to it.
      */
     #name = "Unknown Stellar Object";
     #sType = "Main Sequence";
     #sClass = "Unknown Class";
+    #sSize = 0;
     
     /**
      * #NONSEQUENCE - an array containing all special stellar objects.
@@ -33,6 +35,23 @@ class Star {
     static #FCLASSPER = 0.992;
     static #ACLASSPER = 0.998;
     static #BCLASSPER = 0.9993;
+
+    /**
+     * #MSIZE - size in pixels of a M class star.
+     * #KSIZE - size in pixels of a K class star.
+     * #GSIZE - size in pixels of a G class star.
+     * #FSIZE - size in pixels of a F class star.
+     * #ASIZE - size in pixels of an A class star.
+     * #BSIZE - size in pixels of a B class star.
+     * #OSIZE - size in pixels of an O class star.
+     */
+    static #MSIZE = 25;
+    static #KSIZE = 30;
+    static #GSIZE = 35;
+    static #FSIZE = 40;
+    static #ASIZE = 45;
+    static #BSIZE = 50;
+    static #OSIZE = 70;
     
     /**
      * The constructor for a new star. Star type will be generated here.
@@ -55,30 +74,37 @@ class Star {
                 case randPercent < Star.#MCLASSPER:
                     // 76.5% of all stars will be M class.
                     this.#sClass = Star.#MAINSEQUENCE[0];
+                    this.#sSize = Star.#MSIZE;
                     break;
                 case randPercent < Star.#KCLASSPER:
                     // 12.1% of all stars will be K class.
                     this.#sClass = Star.#MAINSEQUENCE[1];
+                    this.#sSize = Star.#KSIZE;
                     break;
                 case randPercent < Star.#GCLASSPER:
                     // 7.6% of all stars will be G class.
                     this.#sClass = Star.#MAINSEQUENCE[2];
+                    this.#sSize = Star.#GSIZE;
                     break;
                 case randPercent < Star.#FCLASSPER:
                     // 3% of all stars will be F class.
                     this.#sClass = Star.#MAINSEQUENCE[3];
+                    this.#sSize = Star.#FSIZE;
                     break;
                 case randPercent < Star.#ACLASSPER:
                     // 0.6% of all stars will be A class.
                     this.#sClass = Star.#MAINSEQUENCE[4];
+                    this.#sSize = Star.#ASIZE;
                     break;
                 case randPercent < Star.#BCLASSPER:
                     // 0.13% of all stars will be B class.
                     this.#sClass = Star.#MAINSEQUENCE[5];
+                    this.#sSize = Star.#BSIZE;
                     break;
                 default:
                     // Roughly 0.07% of all stars will be O class.
                     this.#sClass = Star.#MAINSEQUENCE[6];
+                    this.#sSize = Star.#OSIZE;
                     break;
             }
         } else {
@@ -114,6 +140,13 @@ class Star {
      */
     get starClass() {
         return this.#sClass;
+    }
+
+    /**
+     * Getter for star size.
+     */
+    get starSize() {
+        return this.#sSize;
     }
 
     /**
@@ -322,9 +355,10 @@ class System {
 
             // Applying some css (mainly for positioning).
             newChild.css({
-                "top": "-15%",
+                "width": this.#stars[0].starSize.toString() + "px",
+                "top": "50%",
                 "right": "50%",
-                "transform": "translateX(50%)"
+                "transform": "translateX(50%) translateY(-50%)"
             });
 
             // Adding the new child to the star-wrapper.
@@ -348,10 +382,12 @@ class System {
          */
         let div = 360 / this.#stars.length;
         let radius = $(".star-wrapper").width();
-        let totalOffset = (radius / 2) - 25;
-    
-        // Code for creating and appending star displays.
-        for (let i = 1; i <= this.#stars.length; ++i) {
+
+        // Iterate through the stars to get their appropriate size.
+        for (let i = 0; i < this.#stars.length; ++i) {
+            // Calculating the total offset using the current star's size.
+            let totalOffset = (radius / 2) - (this.#stars[i].starSize / 2);
+
             // Creating a new div element.
             let newChild = $("<div></div>").addClass("star");
     
@@ -361,6 +397,7 @@ class System {
     
             // Applying the proper position.
             newChild.css({
+                "width": this.#stars[i].starSize.toString() + "px",
                 "top": (y + totalOffset).toString() + "px",
                 "left": (x + totalOffset).toString() + "px"
             });
