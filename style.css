@@ -9,8 +9,8 @@ body {
  * Properly stylizing the star system.
  */
 .star-wrapper {
-    border: 1px solid white;
-    border-radius: 100%;
+    /* border: 1px solid white;
+    border-radius: 100%; */
 
     /*
      * Defining dimensions.
@@ -24,12 +24,17 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    /*
+     * This is a bandaid fix.
+     * I will make this better maybe one day!
+     */
+    margin-top: -18.5px;
+    margin-left: -18.5px;
 
     /*
      * Animating the star system orbit.
-     * animation: orbit 15s linear 0.1s infinite forwards;
      */
+    animation: orbit 15s linear 0.1s infinite forwards;
 }
 
 .star {
