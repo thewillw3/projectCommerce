@@ -66,7 +66,7 @@ class Star {
             switch (true) {
                 case randPercent < Star.#MCLASSPER:
                     // 76.5% of all stars will be M class.
-                    this.#sClass = Star.#MAINSEQUENCE[0]
+                    this.#sClass = Star.#MAINSEQUENCE[0];
                     break;
                 case randPercent < Star.#KCLASSPER:
                     // 12.1% of all stars will be K class.
@@ -266,7 +266,7 @@ class System {
                 break;
         }
 
-        for (let i = 0; i < numOfStars; i++) {
+        for (let i = 0; i < numOfStars; ++i) {
             // Setting the name of the current star.
             let curStarName = this.#name + " " + letter;
             letter = String.fromCharCode(letter.charCodeAt(0) + 1);
@@ -303,7 +303,7 @@ class System {
             // Generating a random number of planets.
             let numOfPlanets = randNumInclusive(System.#MAX_PLANETS, System.#MIN_PLANETS);
 
-            for (let i = 0; i < numOfPlanets; i++) {
+            for (let i = 0; i < numOfPlanets; ++i) {
                 // Setting the name of the current planet.
                 let curPlanetName = this.#name + " " + letter;
                 letter = String.fromCharCode(letter.charCodeAt(0) + 1);

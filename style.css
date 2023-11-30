@@ -1,0 +1,21 @@
+/*
+ * Properly stylizing the star system.
+ */
+.star-wrapper {
+    border: 1px solid black;
+    border-radius: 100%;
+    width: 40px;
+    aspect-ratio: 1/1;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translateY(-50%) translateX(50%);
+}
+
+.star {
+    border: 1px solid black;
+    width: 50px;
+    aspect-ratio: 1/1;
+    position: absolute;
+    border-radius: 100%;
+}

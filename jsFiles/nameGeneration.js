@@ -59,7 +59,7 @@ function randomName(syllableCount) {
     let curSyllable = curName;
 
     // Looping through the process.
-    for (let i = 0; i < (syllableCount - 1); i++) {
+    for (let i = 0; i < (syllableCount - 1); ++i) {
         let nextSyllable = getNextSyllable(curSyllable);
         curName += nextSyllable;
         curSyllable = nextSyllable;
