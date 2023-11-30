@@ -3,6 +3,6 @@ $(function() {
     test.displaySystem();
 
     $("#goku").click(function() {
-        $("#goku").attr("src", "../img/ssjgoku.png");
+        $("#goku").attr("src", "img/ssjgoku.png");
     });
 });

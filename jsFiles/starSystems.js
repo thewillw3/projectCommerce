@@ -1,18 +1,70 @@
 /**
+ * Celestial Object class. Star, Planet, and System will extend this.
+ */
+class Celestial {
+    /**
+     * name - name of any given object.
+     * type - either star type or planet type.
+     * size - size in pixels to be displayed.
+     * color - color to be displayed.
+     */
+    #name = "Unknown Object";
+    #type = "Unknown";
+    #size = 0;
+    #color = "#fff";
+
+    /**
+     * Setter and getter for the name.
+     */
+    set celName(newName) {
+        this.#name = newName;
+    }
+
+    get celName() {
+        return this.#name;
+    }
+
+    /**
+     * Setter and getter for the type.
+     */
+    set celType(newType) {
+        this.#type = newType;
+    }
+
+    get celType() {
+        return this.#type;
+    }
+
+    /**
+     * Setter and getter for the size.
+     */
+    set celSize(newSize) {
+        this.#size = newSize;
+    }
+
+    get celSize() {
+        return this.#size;
+    }
+
+    /**
+     * Setter and getter for the color.
+     */
+    set celColor(newColor) {
+        this.#color = newColor;
+    }
+
+    get celColor() {
+        return this.#color;
+    }
+}
+
+
+/**
  * Class for star creation.
  */
-class Star {
-    /**
-     * name - the star's name. Should be a string.
-     * sType - the star's type. Will be a string from a list of star types.
-     * sClass - if the star is a main sequence star, it will have a class.
-     * sSize - the size in pixels that the star will be when it gets displayed.
-     * attached to it.
-     */
-    #name = "Unknown Stellar Object";
-    #sType = "Main Sequence";
+class Star extends Celestial {
+    // sClass - if the star is a main sequence star, it will have a class.
     #sClass = "Unknown Class";
-    #sSize = 0;
     
     /**
      * #NONSEQUENCE - an array containing all special stellar objects.
@@ -58,14 +110,20 @@ class Star {
      * @param {string} name The name to be assigned to the star. 
      */
     constructor(name) {
+        // Calling the super constructor.
+        super();
+
         // Setting the name of the star.
-        this.#name = name;
+        this.celName = name;
 
         // Generating a random percentage.
         let randPercent = Math.random();
 
         // 90% of stars are main sequence stars.
         if (randPercent < 0.90) {
+            // Set this as a main sequence star.
+            this.celType = "Main Sequence";
+
             // Generate a class for the star.
             randPercent = Math.random();
 
@@ -74,79 +132,43 @@ class Star {
                 case randPercent < Star.#MCLASSPER:
                     // 76.5% of all stars will be M class.
                     this.#sClass = Star.#MAINSEQUENCE[0];
-                    this.#sSize = Star.#MSIZE;
+                    this.celSize = Star.#MSIZE;
                     break;
                 case randPercent < Star.#KCLASSPER:
                     // 12.1% of all stars will be K class.
                     this.#sClass = Star.#MAINSEQUENCE[1];
-                    this.#sSize = Star.#KSIZE;
+                    this.celSize = Star.#KSIZE;
                     break;
                 case randPercent < Star.#GCLASSPER:
                     // 7.6% of all stars will be G class.
                     this.#sClass = Star.#MAINSEQUENCE[2];
-                    this.#sSize = Star.#GSIZE;
+                    this.celSize = Star.#GSIZE;
                     break;
                 case randPercent < Star.#FCLASSPER:
                     // 3% of all stars will be F class.
                     this.#sClass = Star.#MAINSEQUENCE[3];
-                    this.#sSize = Star.#FSIZE;
+                    this.celSize = Star.#FSIZE;
                     break;
                 case randPercent < Star.#ACLASSPER:
                     // 0.6% of all stars will be A class.
                     this.#sClass = Star.#MAINSEQUENCE[4];
-                    this.#sSize = Star.#ASIZE;
+                    this.celSize = Star.#ASIZE;
                     break;
                 case randPercent < Star.#BCLASSPER:
                     // 0.13% of all stars will be B class.
                     this.#sClass = Star.#MAINSEQUENCE[5];
-                    this.#sSize = Star.#BSIZE;
+                    this.celSize = Star.#BSIZE;
                     break;
                 default:
                     // Roughly 0.07% of all stars will be O class.
                     this.#sClass = Star.#MAINSEQUENCE[6];
-                    this.#sSize = Star.#OSIZE;
+                    this.celSize = Star.#OSIZE;
                     break;
             }
         } else {
             // Generate a non-sequence star.
-            this.#sType = Star.#NONSEQUENCE[Math.floor(Math.random() * Star.#NONSEQUENCE.length)];
+            this.celType = Star.#NONSEQUENCE[Math.floor(Math.random() * Star.#NONSEQUENCE.length)];
         }
-    }
-
-    /**
-     * Setter and getter for the name of the star.
-     */
-    set starName(newName) {
-        this.#name = newName;
-    }
-
-    get starName() {
-        return this.#name;
-    }
-
-    /**
-     * Getter for the type of star.
-     * 
-     * Note: unless something changes, I don't think we would need
-     * to make a setter for the star type. It shouldn't change throughout
-     * the course of gameplay, so a setter has no function.
-     */
-    get starType() {
-        return this.#sType;
-    }
-
-    /**
-     * Getter for star class.
-     */
-    get starClass() {
-        return this.#sClass;
-    }
-
-    /**
-     * Getter for star size.
-     */
-    get starSize() {
-        return this.#sSize;
     }
 
     /**
@@ -154,7 +176,7 @@ class Star {
      * @returns {bool}  Returns true if the current stellar object is considered special.
      */
     isSpecial() {
-        return Star.#NONSEQUENCE.includes(this.#sType);
+        return Star.#NONSEQUENCE.includes(this.celType);
     }
 
     /**
@@ -167,7 +189,7 @@ class Star {
          * but not being a main sequence star. They can exist with other stars, so I decided to
          * just write this function for system generation.
          */
-        if (this.#sType === Star.#NONSEQUENCE[1] || this.#sType === "Main Sequence") {
+        if (this.celType === Star.#NONSEQUENCE[1] || this.celType === "Main Sequence") {
             return true;
         }
 
@@ -179,7 +201,7 @@ class Star {
      * @returns {string}    A string formatted as "name: sType (sClass)"
      */
     toString() {
-        let starInfo = this.#name + ": " + this.#sType;
+        let starInfo = this.celName + ": " + this.celType;
 
         if (!this.isSpecial()) {
             starInfo += " (" + this.#sClass + ")";
@@ -192,14 +214,12 @@ class Star {
 /**
  * Class for planet creation.
  */
-class Planet {
+class Planet extends Celestial {
     /**
      * name - the name of the planet. Should be a string.
      * pType - the planet's type. Should be a string.
      * habitable - whether or not the player can inhabit the planet. Boolean.
      */
-    #name = "Unknown Planet";
-    #pType = "Unknown Type";
     #habitable = false;
 
     /**
@@ -207,43 +227,24 @@ class Planet {
      * @param {string} name The name to be assigned to the planet. 
      */
     constructor(name) {
-        this.#name = name;
+        // Calling the super constructor.
+        super();
+
+        this.celName = name;
 
         // Eventually planets will be randomly generated.
-        this.#pType = "Gas Giant";
-    }
-
-    /**
-     * Setter and getter for name of the planet.
-     */
-    set planetName(newName) {
-        this.#name = newName;
-    }
-
-    get planetName() {
-        return this.#name;
-    }
-
-    /**
-     * Getter for the planet type.
-     */
-    get planetType() {
-        return this.#pType;
+        this.celType = "Gas Giant";
     }
 }
 
 /**
  * Class for system creation.
  */
-class System {
+class System extends Celestial {
     /**
-     * name - the name of the current system.
-     * sysType - the type of star system.
      * stars - an array containing all stars in the current system.
      * planets - an array containing all planets in the current system.
      */
-    #name = "Unknown System";
-    #sysType = "Unknown System";
     #stars = [];
     #planets = [];
 
@@ -262,8 +263,11 @@ class System {
      * that special object (excluding the White Dwarf, systems will generate as per usual).
      */
     constructor() {
+        // Calling the super constructor.
+        super();
+
         // Establish the name for the system.
-        this.#name = randomName(3);
+        this.celName = randomName(3);
 
         // Establishing the suffix letter to be added to the end of a star / planet.
         let letter = "A";
@@ -274,22 +278,22 @@ class System {
         // Defining the system type properly.
         switch (numOfStars) {
             case 1:
-                this.#sysType = "Unary Star System";
+                this.celType = "Unary Star System";
                 break;
             case 2:
-                this.#sysType = "Binary Star System";
+                this.celType = "Binary Star System";
                 break;
             case 3:
-                this.#sysType = "Trinary Star System";
+                this.celType = "Trinary Star System";
                 break;
             default:
-                this.#sysType = "Unknown Star System";
+                this.celType = "Unknown Star System";
                 break;
         }
 
         for (let i = 0; i < numOfStars; ++i) {
             // Setting the name of the current star.
-            let curStarName = this.#name + " " + letter;
+            let curStarName = this.celName + " " + letter;
             letter = String.fromCharCode(letter.charCodeAt(0) + 1);
 
             // Adding the new star to the system's array of stars.
@@ -306,10 +310,10 @@ class System {
                 }
 
                 // Renaming the main object.
-                this.#stars[0].starName = this.#name + " A*";
+                this.#stars[0].starName = this.celName + " A*";
 
                 // Redefining the system type.
-                this.#sysType = this.#stars[0].starType;
+                this.celType = this.#stars[0].celType;
 
                 // Breaking out of this loop.
                 break;
@@ -326,7 +330,7 @@ class System {
 
             for (let i = 0; i < numOfPlanets; ++i) {
                 // Setting the name of the current planet.
-                let curPlanetName = this.#name + " " + letter;
+                let curPlanetName = this.celName + " " + letter;
                 letter = String.fromCharCode(letter.charCodeAt(0) + 1);
 
                 // Adding the new planet to the system's array of planets.
@@ -355,7 +359,7 @@ class System {
 
             // Applying some css (mainly for positioning).
             newChild.css({
-                "width": this.#stars[0].starSize.toString() + "px",
+                "width": this.#stars[0].celSize.toString() + "px",
                 "top": "50%",
                 "right": "50%",
                 "transform": "translateX(50%) translateY(-50%)"
@@ -386,7 +390,7 @@ class System {
         // Iterate through the stars to get their appropriate size.
         for (let i = 0; i < this.#stars.length; ++i) {
             // Calculating the total offset using the current star's size.
-            let totalOffset = (radius / 2) - (this.#stars[i].starSize / 2);
+            let totalOffset = (radius / 2) - (this.#stars[i].celSize / 2);
 
             // Creating a new div element.
             let newChild = $("<div></div>").addClass("star");
@@ -397,7 +401,7 @@ class System {
     
             // Applying the proper position.
             newChild.css({
-                "width": this.#stars[i].starSize.toString() + "px",
+                "width": this.#stars[i].celSize.toString() + "px",
                 "top": (y + totalOffset).toString() + "px",
                 "left": (x + totalOffset).toString() + "px"
             });
