@@ -1,24 +1,12 @@
 /**
- * General use functions.
- */
-
-/**
- * Randomly generates a number between min - max (inclusive).
- * @param {number}  max     The upper bound of the number to generate.
- * @param {number}  min     The lower bound of the number to generate.
- * @returns {number}        min <= number <= max.
- */
-function randNumInclusive(max, min) {
-return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-/**
  * Class for star creation.
  */
 class Star {
     /**
-     * Name - the star's name. Should be a string.
+     * name - the star's name. Should be a string.
      * sType - the star's type. Will be a string from a list of star types.
+     * sClass - if the star is a main sequence star, it will have a class
+     * attached to it.
      */
     #name = "Unknown Stellar Object";
     #sType = "Main Sequence";
@@ -323,19 +311,62 @@ class System {
 
     /**
      * Display function.
-     * Currently only displays system to the console.
+     * Currently only works for stars, but will display the number
+     * of stars in the center of the website.
      */
     displaySystem() {
-        console.log(this.#name + " (" + this.#sysType + ") \n" + "Stars in system: ");
+        // If the system only contains one star, nothing fancy needs to be done.
+        if (this.#stars.length === 1) {
+            // Creating a new div element.
+            let newChild = $("<div></div>").addClass("star");
 
-        for (let curStar of this.#stars) {
-            console.log(curStar.toString());
+            // Applying some css (mainly for positioning).
+            newChild.css({
+                "top": "-15%",
+                "right": "50%",
+                "transform": "translateX(50%)"
+            });
+
+            // Adding the new child to the star-wrapper.
+            $(".star-wrapper").append(newChild);
+            return;
         }
 
-        console.log(this.planetNum + " planets in system: ");
-
-        for (let curPlanet of this.#planets) {
-            console.log(curPlanet.planetName);
+        /**
+         * The following code is meant for displaying systems
+         * that contain more than one star.
+         * 
+         * Useful variables:
+         * div - Dividing a circle into equal parts depending on how many stars there are.
+         * radius - The width of the star-wrapper div.
+         * totalOffset - Total amount of distance between the center of the star-wrapper and
+         * the center of the star div to be created.
+         * 
+         * Additional note: the 25 that randomly appears in the definition for totalOffset is the
+         * width of the star. This is a placeholder value for testing. Stars will have different
+         * sizes depending on their classification. :3
+         */
+        let div = 360 / this.#stars.length;
+        let radius = $(".star-wrapper").width();
+        let totalOffset = (radius / 2) - 25;
+    
+        // Code for creating and appending star displays.
+        for (let i = 1; i <= this.#stars.length; ++i) {
+            // Creating a new div element.
+            let newChild = $("<div></div>").addClass("star");
+    
+            // Calculating the proper distance from the system.
+            let y = Math.sin((div * i) * (Math.PI / 180)) * radius;
+            let x = Math.cos((div * i) * (Math.PI / 180)) * radius;
+    
+            // Applying the proper position.
+            newChild.css({
+                "top": (y + totalOffset).toString() + "px",
+                "left": (x + totalOffset).toString() + "px"
+            });
+    
+            // Appending the new element to the star-wrapper.
+            $(".star-wrapper").append(newChild);
         }
     }
 }

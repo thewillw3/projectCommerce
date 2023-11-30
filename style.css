@@ -4,18 +4,48 @@
 .star-wrapper {
     border: 1px solid black;
     border-radius: 100%;
+
+    /*
+     * Defining dimensions.
+     */
     width: 40px;
     aspect-ratio: 1/1;
+
+    /*
+     * Positioning the star-wrapper to the center of the screen.
+     */
     position: absolute;
     top: 50%;
     right: 50%;
     transform: translateY(-50%) translateX(50%);
+
+    /*
+     * Animating the star system orbit.
+     */
+    animation: orbit 10s linear 0s infinite forwards;
 }
 
 .star {
     border: 1px solid black;
+    border-radius: 100%;
+
+    /*
+     * Defining definitions.
+     */
     width: 50px;
     aspect-ratio: 1/1;
+
+    /*
+     * Setting up positioning, most will be defined
+     * through jQuery (see starSystems.js).
+     */
     position: absolute;
-    border-radius: 100%;
+}
+
+/*
+ * Very simple orbit animation.
+ */
+@keyframes orbit {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
 }
