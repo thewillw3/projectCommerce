@@ -209,9 +209,10 @@ class Star extends Celestial {
      * middle of the screen.
      * @param {number} x        Horizontal position to place the new star at. 
      * @param {number} y        Vertical position to place the new star at. 
-     * @param {number} radius   Width of the star-wrapper element.
+     * @param {number} radius   Radius of point to center stars around.
+     * @param {tag}    parElem  Parent element to attach a star to.
      */
-    displayStar(x, y, radius) {
+    displayStar(x, y, radius, parElem) {
         if (!arguments.length) {
             /**
              * This is my janky ass way of overloading the function.
@@ -233,7 +234,7 @@ class Star extends Celestial {
             });
             
             // Adding the new child to the star-wrapper.
-            $("body").append(newChild);
+            $(".center-point").append(newChild);
 
             return;     
         }
@@ -254,7 +255,7 @@ class Star extends Celestial {
         });
             
         // Appending the new element to the star-wrapper.
-        $(".star-wrapper").append(newChild);
+        parElem.append(newChild);
     }
 
     /**
@@ -326,7 +327,7 @@ class System extends Celestial {
 
     // Bounds for minimum stars and maximum stars.
     static #MIN_STARS = 1;
-    static #MAX_STARS = 2;
+    static #MAX_STARS = 3;
 
     // Bounds for minimum planets and maximum planets.
     static #MIN_PLANETS = 0;
@@ -335,6 +336,7 @@ class System extends Celestial {
     // Creating variables for the different system types.
     static #ONESTAR = "Unary Star System";
     static #TWOSTAR = "Binary Star System";
+    static #THREESTAR = "Trinary Star System";
 
     /**
      * The constructor for systems.
@@ -362,6 +364,9 @@ class System extends Celestial {
                 break;
             case 2:
                 this.celType = System.#TWOSTAR;
+                break;
+            case 3:
+                this.celType = System.#THREESTAR;
                 break;
             default:
                 console.log("Star value for system is not valid.");
@@ -397,6 +402,9 @@ class System extends Celestial {
             }
         }
 
+        // Sorting stars based off of size in descending order.
+        this.#stars.sort((a, b) => b.celSize - a.celSize);
+
         // Planets will not be generated around Neutron Stars or Black Holes.
         if (this.#stars[0].isStar()) {
             // Changing the suffix letter to be in line with planet naming conventions.
@@ -429,29 +437,39 @@ class System extends Celestial {
      * of stars in the center of the website.
      */
     displaySystem() {
+        // Creating the center point in which everything will orbit.
+        let cenPoint = $("<div></div>").addClass("center-point");
+        $("body").append(cenPoint);
+
         if (this.#stars.length === 1) {
             // If only one star exists within the system, display it.
             this.#stars[0].displayStar();
         } else {
-            // Use parameterized displayStar() if there's more than one.
-            // Start by adding the star-wrapper element.
-            let starWrap = $("<div></div>").addClass("star-wrapper");
-            $("body").append(starWrap);
+            let startPoint = (this.#stars.length === 3) ? 1 : 0;
+
+            // If trinary system, then display a star in the middle of the system.
+            if (startPoint) {
+                this.#stars[0].displayStar();
+            }
+
+            // Creating the orbit for multiple stars.
+            let starOrbit = $("<div></div>").addClass("orbit");
+            cenPoint.append(starOrbit);
 
             // Dividing a circle into equal parts depending on how many stars there are.
-            let div = 360 / this.#stars.length;
-
-            // Getting the width of the star-wrapper.
-            let radius = $(".star-wrapper").width();
+            let div = 180;
+            
+            // Getting the width of the center-point.
+            let radius = $(".center-point").width();
 
             // Iterate through the stars to get their appropriate size.
-            for (let i = 0; i < this.#stars.length; ++i) {
-                // Calculating the proper distance from star-wrapper.
-                let y = Math.sin((div * i) * (Math.PI / 180)) * radius;
-                let x = Math.cos((div * i) * (Math.PI / 180)) * radius;
-        
+            for (let i = startPoint; i < this.#stars.length; ++i) {
+                // Calculating the proper distance from center-point.
+                let y = Math.sin((div * i) * (Math.PI / 180)) * (radius);
+                let x = Math.cos((div * i) * (Math.PI / 180)) * (radius);
+
                 // Displaying the star.
-                this.#stars[i].displayStar(x, y, radius);
+                this.#stars[i].displayStar((x * 1.75), (y * 1.75), radius, starOrbit);
             }
         }
     }

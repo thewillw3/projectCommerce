@@ -8,7 +8,7 @@ body {
 /*
  * Properly stylizing the star system.
  */
-.star-wrapper {
+.center-point {
     /* border: 1px solid white;
     border-radius: 100%; */
 
@@ -24,12 +24,25 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    /*
-     * This is a bandaid fix.
-     * I will make this better maybe one day!
+    transform: translate(-50%, -50%);
+}
+
+.orbit {
+    /* 
+     * Default size of the orbit.
      */
-    margin-top: -18.5px;
-    margin-left: -18.5px;
+    width: 100%;
+    aspect-ratio: 1/1;
+
+    /*
+     * Positioning.
+     */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -17.5px;
+    margin-left: -17.5px;
+
 
     /*
      * Animating the star system orbit.
@@ -50,14 +63,13 @@ body {
      * Setting up positioning, most will be defined
      * through jQuery (see starSystems.js).
      */
-    position: absolute;    
+    position: absolute;
 }
 
 /*
  * Very simple orbit animation.
  */
 @keyframes orbit {
-    0% {transform: rotate(0deg);}
     100% {transform: rotate(360deg);}
 }
 
