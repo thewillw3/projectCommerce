@@ -15,7 +15,7 @@ body {
     /*
      * Defining dimensions.
      */
-    width: 35px;
+    width: 30px;
     aspect-ratio: 1/1;
 
     /*
@@ -40,8 +40,8 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -17.5px;
-    margin-left: -17.5px;
+    margin-top: -15px;
+    margin-left: -15px;
 
 
     /*

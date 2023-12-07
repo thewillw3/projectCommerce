@@ -2,15 +2,17 @@ $(function() {
     let test = new System();
     test.displaySystem();
 
-    let num = 0;
-
     // Function to change Goku's form
-    $("#goku").click(function() {
-        let goku = ["img/ssjgoku.png", "img/ssggoku.png", "img/ssgssgoku.png"];
-        if(num === goku.length){
-            return;
+    const ssj = {
+        val: 0,
+        transform() {
+            let goku = ["img/ssjgoku.png", "img/ssggoku.png", "img/ssgssgoku.png"];
+
+            if (this.val != goku.length) {
+                $("#goku").attr("src", goku[this.val++]);
+            }
         }
-        $("#goku").attr("src", goku[num]);
-        num++;
-    });
+    }
+
+    $("#goku").click(() => {ssj.transform()});
 });

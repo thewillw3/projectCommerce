@@ -441,8 +441,8 @@ class System extends Celestial {
         let cenPoint = $("<div></div>").addClass("center-point");
         $("body").append(cenPoint);
 
+        // If one or three stars exist within a system, display a star in the middle.
         if (this.#stars.length === 1 || this.#stars.length === 3) {
-            // If one or three stars exist within a system, display a star in the middle.
             this.#stars[0].displayStar();
 
             // Adjusting the size of the center point of the system based off of
@@ -456,6 +456,7 @@ class System extends Celestial {
 
             // Creating the orbit for multiple stars.
             let starOrbit = $("<div></div>").addClass("orbit").css({
+                // Making sure the centering for the orbit is correct.
                 "margin-left": "-" + (cenPoint.width() / 2) + "px",
                 "margin-top": "-" + (cenPoint.width() / 2) + "px"
             });
