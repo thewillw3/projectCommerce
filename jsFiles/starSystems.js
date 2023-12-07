@@ -225,7 +225,7 @@ class Star extends Celestial {
     
             // Applying size, color, glow, and position.
             newChild.css({
-                "width": this.celSize.toString() + "px",
+                "width": this.celSize + "px",
                 "background-color": this.celColor,
                 "box-shadow": "0 0 20px " + this.celColor,
                 "top": "50%",
@@ -233,7 +233,7 @@ class Star extends Celestial {
                 "transform": "translateX(50%) translateY(-50%)"
             });
             
-            // Adding the new child to the star-wrapper.
+            // Adding the new child to the center point.
             $(".center-point").append(newChild);
 
             return;     
@@ -247,11 +247,11 @@ class Star extends Celestial {
 
         // Applying size, color, glow, and positioning.
         newChild.css({
-            "width": this.celSize.toString() + "px",
+            "width": this.celSize + "px",
             "background-color": this.celColor,
             "box-shadow": "0 0 20px " + this.celColor,
-            "top": (y + totalOffset).toString() + "px",
-            "left": (x + totalOffset).toString() + "px"
+            "top": (y + totalOffset) + "px",
+            "left": (x + totalOffset) + "px"
         });
             
         // Appending the new element to the star-wrapper.
@@ -444,6 +444,10 @@ class System extends Celestial {
         if (this.#stars.length === 1 || this.#stars.length === 3) {
             // If one or three stars exist within a system, display a star in the middle.
             this.#stars[0].displayStar();
+
+            // Adjusting the size of the center point of the system based off of
+            // the size of the central star.
+            cenPoint.css({"width": this.#stars[0].celSize + "px"});
         }
         
         // Displaying additional stars (if they exist).
@@ -451,14 +455,18 @@ class System extends Celestial {
             let startPoint = (this.#stars.length === 3) ? 1 : 0;
 
             // Creating the orbit for multiple stars.
-            let starOrbit = $("<div></div>").addClass("orbit");
+            let starOrbit = $("<div></div>").addClass("orbit").css({
+                "margin-left": "-" + (cenPoint.width() / 2) + "px",
+                "margin-top": "-" + (cenPoint.width() / 2) + "px"
+            });
+            
             cenPoint.append(starOrbit);
 
             // Dividing a circle into equal parts depending on how many stars there are.
             let div = 180;
             
             // Getting the width of the center-point.
-            let radius = $(".center-point").width();
+            let radius = cenPoint.width();
 
             // Iterate through the stars to get their appropriate size.
             for (let i = startPoint; i < this.#stars.length; ++i) {
