@@ -39,7 +39,7 @@ const player = {
      * Adds [amount] of money to player's money count.
      * @param {number} amount   Amount of money to add, must be >= 0. 
      */
-    addMoney: function(amount) {
+    addMoney(amount) {
         this.money += amount;
     },
 
@@ -47,7 +47,7 @@ const player = {
      * Removes [amount] of money from the player's money count.
      * @param {number} amount   Amount of money to remove, must be >= 0.
      */
-    removeMoney: function(amount) {
+    removeMoney(amount) {
         this.money = this.money - amount;
     },
 
@@ -56,7 +56,7 @@ const player = {
      * @param {string}  id      The name of an item in the game. 
      * @param {number}  amount  The amount of item to add, must be >= 0. 
      */
-    addItem: function(id, amount) {
+    addItem(id, amount) {
         if (this.inventory.has(id)) {
             amount += this.inventory.get(id);
         }
@@ -69,7 +69,7 @@ const player = {
      * @param {string}  id      The name of an item in the game. 
      * @param {number}  amount  The amount of item to remove, must be >= 0. 
      */
-    removeItem: function(id, amount) {
+    removeItem(id, amount) {
         if (this.inventory.has(id)) {
             amount = this.inventory.get(id) - amount;
         }
@@ -82,7 +82,7 @@ const player = {
      * @param {string}  id  The name of an item in the game.
      * @returns {number}    The number of [id] in the player's inventory.
      */
-    getItem: function(id) {
+    getItem(id) {
         return this.inventory.get(id);
     }
 };
