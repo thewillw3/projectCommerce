@@ -441,16 +441,14 @@ class System extends Celestial {
         let cenPoint = $("<div></div>").addClass("center-point");
         $("body").append(cenPoint);
 
-        if (this.#stars.length === 1) {
-            // If only one star exists within the system, display it.
+        if (this.#stars.length === 1 || this.#stars.length === 3) {
+            // If one or three stars exist within a system, display a star in the middle.
             this.#stars[0].displayStar();
-        } else {
+        }
+        
+        // Displaying additional stars (if they exist).
+        if (this.#stars.length > 1){
             let startPoint = (this.#stars.length === 3) ? 1 : 0;
-
-            // If trinary system, then display a star in the middle of the system.
-            if (startPoint) {
-                this.#stars[0].displayStar();
-            }
 
             // Creating the orbit for multiple stars.
             let starOrbit = $("<div></div>").addClass("orbit");
